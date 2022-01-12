@@ -5,26 +5,37 @@ on:
     branches: [main]
 jobs:
   main:
-    name: Build and Validate
+    name: Build, Validate and Deploy
     runs-on: ubuntu-20.04
-    strategy:
-      max-parallel: 1
-      matrix:
-        include:
-          - source: index.html
-            destination: index.html
-          - source: content/index.html
-            destination: content/index.html
-          - source: help/index.html
-            destination: help/index.html
-          - source: tools/index.html
-            destination: tools/index.html
-          - source: requirements/index.html
-            destination: requirements/index.html
     steps:
       - uses: actions/checkout@v2
       - uses: w3c/spec-prod@v2
         with:
+          SOURCE: index.html
+          DESTINATION: index.html
           TOOLCHAIN: respec
           GH_PAGES_BRANCH: gh-pages
-          DESTINATION: ${{ matrix.destination }}
+      - uses: w3c/spec-prod@v2
+        with:
+          SOURCE: content/index.html
+          DESTINATION: content/index.html
+          TOOLCHAIN: respec
+          GH_PAGES_BRANCH: gh-pages
+      - uses: w3c/spec-prod@v2
+        with:
+          SOURCE: help/index.html
+          DESTINATION: help/index.html
+          TOOLCHAIN: respec
+          GH_PAGES_BRANCH: gh-pages
+      - uses: w3c/spec-prod@v2
+        with:
+          SOURCE: tools/index.html
+          DESTINATION: tools/index.html
+          TOOLCHAIN: respec
+          GH_PAGES_BRANCH: gh-pages
+      - uses: w3c/spec-prod@v2
+        with:
+          SOURCE: requirements/index.html
+          DESTINATION: requirements/index.html
+          TOOLCHAIN: respec
+          GH_PAGES_BRANCH: gh-pages
